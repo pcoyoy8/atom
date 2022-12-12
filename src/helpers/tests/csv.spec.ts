@@ -29,5 +29,18 @@ describe('Csv helper', () => {
         ',,\n' +
         ',,').toEqual(json2Csv(columns, data));
     });
+
+    it('should use custom values for separatos, undefined and null', () => {
+      const columns = ['c1', 'c2', 'c3'];
+      const data = [{ c3: 4 }, {c1: 5}, { c1: null, c2: '3-3'}];
+      expect('"c1";"c2";"c3"\n' +
+        'undef;undef;4\n' +
+        '5;undef;undef\n' +
+        'empty;"3-3";undef')
+        .toEqual(json2Csv(columns, data, ';', {
+          undefined: 'undef',
+          null: 'empty',
+      }))
+    });
   });
 });
